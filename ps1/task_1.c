@@ -53,7 +53,6 @@ int opposite_number(const int n, const int number)
 		}
 	}
 	
-	
 	if(field == 6)
 	{
 		if(bururi <= 3)
@@ -104,9 +103,42 @@ int opposite_number(const int n, const int number)
 
 }
 
+void counter(const int input_array[], const int array_size, int result_array[2])
+{
+	int even = 0;
+	int odd = 0;
+	int test[array_size];
+	for (int i = 0; i < array_size; i++) 
+	{
+	    test[i] = input_array[i];
+	}
+	
+	for(int i = 0; i < sizeof(test)/sizeof(test[0]);i++)
+	{
+		if(i % 2 == 0)
+		{
+			 even += test[i];
+		}
+		else
+		{
+			 odd += test[i];
+		}
+		
+		
+	}
+	result_array[0] = even;
+	result_array[1] = odd;
+	
+}
+
+
+
 int main(void) {
     
-    printf("%d\n", opposite_number(12,9));
-    
+        int input_array[] = {1,2,3,4,5};
+	int result_array[2];
+	counter(input_array, 5, result_array);
+	printf("%d %d\n", result_array[0], result_array[1]);
+	    
     return 0;
 }
