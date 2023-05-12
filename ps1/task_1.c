@@ -260,12 +260,9 @@ int special_numbers(const int input_array[], const int array_size, int result_ar
 		int finish = result - input_array[h];
 				
 		if(input_array[h] > finish)
-		{
-			
+		{		
 			result_array[count] = input_array[h];
 			count++;
-			
-					
 		}
 		result = finish;
 	} 
