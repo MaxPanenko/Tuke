@@ -155,7 +155,7 @@ void hangman(const char secret[])
     
         printf("\n");
         printf("-------------\n");
-        if(is_word_guessed(secret , pomichnik)) 
+        if(is_word_guessed(secret , pomichnik) == true) 
         {
             printf("Congratulations, you won!\n");
             break;
@@ -164,8 +164,8 @@ void hangman(const char secret[])
         {
 		if(attempts == 0 ) 
 		{
-		printf("Sorry, you ran out of guesses. The word was %s.\n" , secret);
-		break;
+			printf("Sorry, you ran out of guesses. The word was %s.\n" , secret);
+			break;
        	        }
 	}
 	
