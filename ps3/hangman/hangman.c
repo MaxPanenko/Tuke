@@ -38,34 +38,6 @@ void get_available_letters(const char letters_guessed[], char available_letters[
 	printf("%s\n", available_letters);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void get_guessed_word(const char secret[], const char letters_guessed[], char guessed_word[])
 {
 	int length = strlen(secret);
