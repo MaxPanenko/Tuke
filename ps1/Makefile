@@ -1,2 +1,11 @@
+# variables
+CC=gcc
+CFLAGS=-std=c11 -Wall -Werror
+LDLIBS=-lsuperkarel -lcurses
+OUTPUT=$@
+
+# targets
 %: %.c
-	gcc -std=c11 -Werror -Wall $@.c -o $@ -lm
+	$(CC) $(CFLAGS) $@.c $(LDLIBS) -o $(OUTPUT)
+
+
