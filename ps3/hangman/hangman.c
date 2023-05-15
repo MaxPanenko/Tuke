@@ -179,10 +179,10 @@ void get_available_letters(const char letters_guessed[], char available_letters[
     int bukvi = strlen(letters_guessed);
     int length=strlen(alfavit);
     int y = 0;
-       
-        for(int i = 0 ; i < length ; i++) 
-        { 
-            int n = 0;
+    int i = 0;
+    while(i < length)
+    {
+    	int n = 0;
             for(int j = 0; j < bukvi ; j++) 
             {
                 if(alfavit[i] == letters_guessed[j]) 
@@ -195,7 +195,9 @@ void get_available_letters(const char letters_guessed[], char available_letters[
                 available_letters[y]=alfavit[i];
                 y++;
             }
-        }
+            i++;
+    }
+       
         available_letters[y] = '\0';
 	
 	
