@@ -2,7 +2,8 @@
 #include "hangman.h"
 #include <time.h>
 #include <stdlib.h>
-int main() {
+int main() 
+{
 srand(time(NULL));
 
 char word[30];
