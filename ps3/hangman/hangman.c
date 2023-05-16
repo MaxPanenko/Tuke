@@ -6,23 +6,17 @@
 #include <string.h>
 #include <ctype.h>
 
-#define slovechkoL strlen(slovechko)
-#define burmalda strlen(secret)
-#define bururi strlen(letters_guessed)
-#define alpfavit "abcdefghijklmnopqrstuvwxyz"
-#define str strlen(bukvi)
-
-
 
 void hangman(const char secret[])
 {
 	
-    
+    int length = strlen(secret);
     printf("Welcome to the game, Hangman!\n");
-    printf("I am thinking of a word that is %ld letters long.\n",burmalda);
+    printf("I am thinking of a word that is %d letters long.\n",length);
     printf("-------------\n");
 
     int attempts = 8;
+    char alpfavit[] = "abcdefghijklmnopqrstuvwxyz";
     char bukvi[30];
     char slovechko[30];
     char pomichnik[30];
@@ -36,7 +30,7 @@ void hangman(const char secret[])
     printf("Available letters: %s\n", bukvi);
     printf("Please guess a letter: ");
     scanf("%s", slovechko);
-    
+    int slovechkoL = strlen(slovechko);
     if(slovechko == NULL)
     {
     	break;
@@ -61,7 +55,7 @@ void hangman(const char secret[])
     }
     
     
-    if(burmalda == slovechkoL) 
+    if(length == slovechkoL) 
     {
         if(strcmp(secret,slovechko) == 0) 
         {
@@ -75,7 +69,7 @@ void hangman(const char secret[])
          }
         
     } 
-    else if(slovechkoL > 1 && slovechkoL != burmalda) 
+    else if(slovechkoL > 1 && slovechkoL != length) 
     {
         printf("Sorry bad guess. The word was %s.\n", secret);
         break;
@@ -98,6 +92,7 @@ void hangman(const char secret[])
             }
         }
     }
+    int str = strlen(bukvi);
     int i = 0;
     int j = 0;
     while(i < slovechkoL)
@@ -160,8 +155,7 @@ void hangman(const char secret[])
     
         printf("\n");
         printf("-------------\n");
-        bool pravda = true;
-        if(is_word_guessed(secret , pomichnik) == pravda) 
+        if(is_word_guessed(secret , pomichnik) == true) 
         {
             printf("Congratulations, you won!\n");
             break;
@@ -183,10 +177,10 @@ void get_available_letters(const char letters_guessed[], char available_letters[
     
     char alfavit[] = "abcdefghijklmnopqrstuvwxyz";
     int bukvi = strlen(letters_guessed);
-    int dlina =strlen(alfavit);
+    int length=strlen(alfavit);
     int y = 0;
     int i = 0;
-    while(i < dlina)
+    while(i < length)
     {
     	int n = 0;
             for(int j = 0; j < bukvi ; j++) 
@@ -210,10 +204,11 @@ void get_available_letters(const char letters_guessed[], char available_letters[
 }
 
 void get_guessed_word(const char secret[], const char letters_guessed[], char guessed_word[])
-{	
+{
+	int length = strlen(secret);
     	int sizeguessed = strlen(letters_guessed);
     	int i = 0;
-    	while(i != burmalda)
+    	while(i != length)
     	{
     	for(int j = 0 ; j != sizeguessed ; j++) 
             {
@@ -230,24 +225,26 @@ void get_guessed_word(const char secret[], const char letters_guessed[], char gu
             	i++;
     	}
     	
-    	guessed_word[burmalda] = '\0';
+    	guessed_word[length] = '\0';
         
 	
 }
 
 int is_word_guessed(const char secret[], const char letters_guessed[])
 {
-	bool ugadano[bururi];
+	int length = strlen(secret);
+	int length2 = strlen(letters_guessed);
+	bool ugadano[length];
 	memset(ugadano, false, sizeof(ugadano));
 	
-	for(int i = 0; i < bururi;i++)
+	for(int i = 0; i < length;i++)
 	{
 		if (ugadano[i])
 		{
 			continue;
 		}
 		    
-		for(int j = 0; j < bururi ;j++)
+		for(int j = 0; j < length2 ;j++)
 		{
 			if (!ugadano[i] && secret[i] == letters_guessed[j])
 			{
@@ -257,7 +254,7 @@ int is_word_guessed(const char secret[], const char letters_guessed[])
 		}
 	}
 	
-	 for (int i = 0; i < bururi; i++)
+	 for (int i = 0; i < length; i++)
    	 {
        		 if (!ugadano[i])
      	         {
