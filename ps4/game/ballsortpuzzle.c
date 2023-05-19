@@ -53,17 +53,17 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
 	 			prikol = 0;
 	 			if(field[prikol][x - 1] == ' ')
 	 			{
-	 				
+	 				//zabrav ta postaviv symbol
 	 				while(field[prikol][x - 1] == ' ')
 	 				{
 	 					prikol++;
 	 				}
 	 				hesh = field[prikol][x - 1];
-	 				field[prikol][x - 1] = ' ';
+	 				field[prikol][x - 1] = ' '; 
 
 	 				if(field[pole][y - 1] == ' ' &&  field[pole + 1][y - 1] == ' ')
 	 				{
-		 				while(field[pole][y - 1] == ' ' && pole != rows -1)
+		 				while(field[pole + 1][y - 1] == ' ' && pole != rows -1)
 		 				{ 				
 		 					pole++;
 		 				}
@@ -125,7 +125,7 @@ bool check(const int rows, const int columns, char field[rows][columns])
 	return winOrLose;
 }
 
-void game_field(const int rows, const int columns, char field[rows][columns])
+/*void game_field(const int rows, const int columns, char field[rows][columns])
 {
 	int columnsMultiplay = (columns * 4 + 4 );
 	int ray = (columns * 4 + 4 ) / 2 - 3;
@@ -163,6 +163,42 @@ void game_field(const int rows, const int columns, char field[rows][columns])
 		}
 
 	}
+}*/
+
+void ball_sort_puzzle()
+{
+
+		char field[4][6] = {
+	{'@', '*', ' ', ' ', ' ', '^'},
+	{'@', '*', '+', ' ', '+', '^'},
+	{'@', '*', ' ', ' ', '+', '^'},
+	{'@', '*', ' ', ' ', '+', '^'}
+};
+
+
+
+	int colum ;
+	int toColumn;
+	while(true)
+	{
+		generator(4,6,field);
+		printf("Which character you want to move:");
+		scanf("%d",&colum);
+		printf("To which column you want to move this character:");
+		scanf("%d",&toColumn);
+		down_possible(4,6,field,colum,toColumn);
+		if(check(4,6,field))
+		{
+			printf("Congratulations! You won!\n");
+			break;
+		}
+		else
+		{
+			continue;
+		}
+		
+
+	}	
 }
 
 
