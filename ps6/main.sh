@@ -1,4 +1,4 @@
-# Del old
+# Delete old
 if [ -f program ]; then
 	rm program
 fi
