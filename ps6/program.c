@@ -75,9 +75,9 @@ bool is_collision(Position a, Position b)
     return (a.x == b.x && a.y == b.y);
 }
 
-void draw_hud(int level,int current_dollars,int random_width,int random_height)
+void draw_hud(int level,int *current_dollars,int random_width,int random_height)
 {
-    mvprintw(random_height + 2, 0, "level:%d $:%d", level, current_dollars);
+    mvprintw(random_height + 2, 0, "level:%d $:%d", level, *current_dollars);
 }
 
 int main() {
@@ -113,7 +113,7 @@ int main() {
         while (!end_or_win) 
         {
             clear();
-            draw_hud(level,current_dollars,random_width,random_height);
+            draw_hud(level,&current_dollars,random_width,random_height);
             refresh();
             draw_field(random_width, random_height);
             draw_player(player);
