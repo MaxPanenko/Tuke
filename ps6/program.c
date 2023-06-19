@@ -101,9 +101,9 @@ bool is_collision(Position a, Position b)
     return (a.x == b.x && a.y == b.y);
 }
 
-void draw_hud(int level, int current_dollars, int random_width, int random_height) 
+void draw_hud(int level, int current_dollars, int random_width, int random_height, int record) 
 {
-    mvprintw(random_height + 2, 0, "level:%d $:%d", level, current_dollars);
+    mvprintw(random_height + 2, 0, "level:%d $:%d record:%d", level, current_dollars,record);
 }
 
 void sleep_ms(int milliseconds) {
@@ -143,6 +143,15 @@ int main() {
     enemy_pos.x = random_width / random - 1;
     enemy_pos.y = 0;
 
+    int record = 0;
+    
+    FILE* fp = fopen("file.txt", "r");
+    if (fp != NULL) 
+    {
+         fscanf(fp, "%d", &record); // Read the record from the file
+         fclose(fp);
+    }
+
     while (level <= max_level) 
     {
         clear();
@@ -158,7 +167,7 @@ int main() {
         while (!end_or_win) 
         {
             clear();
-            draw_hud(level, current_dollars, random_width, random_height);
+            draw_hud(level, current_dollars, random_width, random_height, record);
             draw_field(random_width, random_height);
             draw_player(player);
             draw_enemy(enemy_pos);
@@ -216,6 +225,17 @@ int main() {
                 break;
             }
 
+            if (current_dollars > record) 
+            {
+                    record = current_dollars;
+                    fp = fopen("file.txt", "w");
+
+                    if (fp != NULL) 
+                    {
+                        fprintf(fp, "%d", record); // Write the new record to the file
+                        fclose(fp);
+                    }
+                }
 
             bool all_items_collected = true;
             for (int i = 0; i < random_items; i++) 
@@ -255,9 +275,6 @@ int main() {
                 }
             }
             
-        
-       
-
         level++;
     }
 
