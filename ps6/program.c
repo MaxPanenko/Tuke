@@ -281,4 +281,4 @@ int main() {
     getchar();
     endwin();
     return 0;
-}
+}   

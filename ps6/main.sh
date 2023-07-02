@@ -1,10 +1,12 @@
+#!/bin/sh
+
 # Delete old
 if [ -f program ]; then
 	rm program
 fi
 
 # Build new
-gcc program.c -o program -Wno-unused -lncurses
+gcc program.c -o program -Wno-unused -lncurses	
 
 # Run
 ./program
