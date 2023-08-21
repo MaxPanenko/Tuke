@@ -75,6 +75,8 @@ char* getStartValue(const char* key)
         result2[i] = toupper(result[i]);
     }
 
+    free(result);
+
     return result2;
 }
 
