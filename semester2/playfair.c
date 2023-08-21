@@ -6,25 +6,34 @@
 #include "playfair.h"
 
 char* getStartValue(const char* key);
-char* playfair_encrypt(const char* key, const char* text);
 char* changeSifr(const char* text);
 
 int main()
 {
-    char *encrypted;
-    encrypted = playfair_encrypt("SECRET", "Hello World!");
+    char *encrypted,*decrypted;
+    encrypted = playfair_encrypt("world", "Hello");
     printf("%s\n", encrypted);
+    decrypted = playfair_decrypt("SeCrEt", encrypted);
+    printf("%s\n", decrypted);
     free(encrypted);
+    free(decrypted);
     return 0;
 }
 
 char* playfair_encrypt(const char* key, const char* text)
 {
-    char* startValue = changeSifr(text); // Call getStartValue
+    char *sifr = changeSifr(text);
+  
 
-    // Process startValue (encrypt or manipulate it)
 
-    return startValue; // Return it without freeing
+    return sifr;
+}
+
+char* playfair_decrypt(const char* key, const char* text)
+{
+    char* startValue = getStartValue(key);
+
+    return startValue;
 }
 
 char* getStartValue(const char* key)
@@ -41,6 +50,7 @@ char* getStartValue(const char* key)
 
     strcpy(result, key);
 
+
     char remaining_chars[alpha_length + 1];
     strcpy(remaining_chars, ALPHA);
 
@@ -48,7 +58,7 @@ char* getStartValue(const char* key)
     {
         for (int j = 0; j < strlen(remaining_chars); j++)
         {
-            if (key[i] == remaining_chars[j])
+            if (toupper(key[i]) == toupper(remaining_chars[j]))
             {
                 
                 memmove(&remaining_chars[j], &remaining_chars[j + 1], alpha_length - j);
@@ -59,7 +69,13 @@ char* getStartValue(const char* key)
 
     strcat(result, remaining_chars); // Append the remaining characters to the result
 
-    return result;
+    char *result2 = malloc(strlen(result + 1) * sizeof(char));
+    for(int i = 0; i < strlen(result); i++)
+    {
+        result2[i] = toupper(result[i]);
+    }
+
+    return result2;
 }
 
 char* changeSifr(const char* text)
@@ -90,6 +106,11 @@ char* changeSifr(const char* text)
         }
         else
         {
+            if(text[i] == ' ')
+            {
+                continue;
+            }
+
             result[j++] = toupper(text[i]);
 
             if (toupper(text[i]) == toupper(text[i + 1]))
@@ -97,7 +118,6 @@ char* changeSifr(const char* text)
                 result[j++] = 'X';        
             }
         }
-       
 
     }
 
