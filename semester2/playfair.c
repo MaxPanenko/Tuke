@@ -12,9 +12,9 @@ char* reverse(const char* reverse);
 int main()
 {
     char *encrypted,*decrypted, *reversed;
-    encrypted = playfair_encrypt("belfast", "Hello");
+    encrypted = playfair_encrypt("world", "Hello");
     printf("%s\n", encrypted);
-    decrypted = playfair_decrypt("belfast", encrypted);
+    decrypted = playfair_decrypt("world", encrypted);
     printf("%s\n", decrypted);
     reversed = reverse("Hello world!");
     printf("%s\n", reversed);
@@ -44,8 +44,61 @@ char* reverse(const char* text) {
 
 char* playfair_encrypt(const char* key, const char* text)
 {
-    char *sifr = changeSifr(text);
-    return sifr;
+    char *sifr = getStartValue(key);
+    char *word = changeSifr(text);
+    char *result = (char*)malloc((strlen(word) * 2 + 1) * sizeof(char));
+
+    if (sifr == NULL || word == NULL || result == NULL) {
+        // Handle memory allocation failure here
+        return NULL;
+    }
+
+    int lengthArray = strlen(sifr);
+
+    char *twoDArray = (char*)malloc(lengthArray * sizeof(char)); 
+
+    if (twoDArray == NULL) {
+        // Handle memory allocation failure here
+        free(sifr);
+        free(word);
+        free(result);
+        return NULL;
+    }
+
+    for(int i = 0; i < lengthArray; i++)
+    {
+        twoDArray[i] = sifr[i];
+    }
+
+    twoDArray[lengthArray] = '\0';
+
+    int currentNumber[strlen(word)];
+    int changeNumber = 0;
+    for(int i = 0; i < strlen(word) / 2 ; i++) 
+    {
+        for(int j = 0; j < strlen(twoDArray); j++)
+        {
+            if(word[i] == twoDArray[j] || word[i + 1] == twoDArray[j])
+            {
+                currentNumber[changeNumber] = j;
+                changeNumber++;
+            }
+        }
+
+        if(changeNumber > 1 && currentNumber[i] + 1  < currentNumber[i + 1])
+        {
+            if (currentNumber[i] + 1 < currentNumber[i + 2]){
+                strcat(result, &twoDArray[currentNumber[i - 2]]);
+                strcat(result, &twoDArray[currentNumber[i + 3]]);
+                strcat(result, " ");
+            }
+        }
+    }
+    
+    free(sifr);
+    free(word);
+    free(twoDArray);
+    return result;
 }
 
 char* playfair_decrypt(const char* key, const char* text)
@@ -136,7 +189,7 @@ char* changeSifr(const char* text)
 
             result[j++] = toupper(text[i]);
 
-            if (toupper(text[i]) == toupper(text[i + 1]))
+            if (toupper(text[i]) == toupper(text[i + 1]) && toupper(text[i] + 1) != toupper(text[i + 2]))
             {
                 result[j++] = 'X';        
             }
@@ -146,51 +199,8 @@ char* changeSifr(const char* text)
 
     result[j] = '\0';
 
-    /*
-    char array[5][5];
-    int vremya = 0;
 
-    for(int i = 0; i < 5; i++)
-    {
-        for(int j = 0; j < 5; j++)
-        {
-            array[i][j] = result[vremya];
-            vremya++;
-        }
-    }
 
-    int h = 0;
-    int f = 0;
-    int one = 0;
-    int two = 0;
-    char* superMegaResult = (char*)malloc(strlen(result) * sizeof(char));
-   
-    for(int i = 0; i < 5; i++)
-    {
-        for(int j = 0; j < 5; j++)
-        {
-            if(result[h] == array[i][j])
-            {
-                f = i;
-                h++;
-            }
-         
-            if(result[h + 1] == array[i][j])
-            {
-                one = i;
-                two = j;
 
-                if(one < f)
-                {
-                    superMegaResult[i] = array[one+1][two];
-                }
-            }    
-        }
-        
-         superMegaResult[h] = '\0';
-
-    }
-
-    return superMegaResult;*/
     return result;
 }
